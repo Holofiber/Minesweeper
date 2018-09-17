@@ -14,23 +14,23 @@ namespace BusinessLogic.Tests
             {new Cell(CellValue.One), new Cell(CellValue.Two), new Cell(CellValue.One)}
         };
 
-        [TestMethod]
+       /* [TestMethod]
         public void OpenCell_Test()
         {
-            var fiel = new PlayField();
+            var fiel = new PlayBoard();
 
-            fieldCells[0, 0].CellIsOpen.Should().BeFalse();
+            fieldCells[0, 0].IsOpen.Should().BeFalse();
             OpenCell openCell = new OpenCell();
 
             openCell.Open(fieldCells[0, 0]);
 
-            fieldCells[0, 0].CellIsOpen.Should().BeTrue();
+            fieldCells[0, 0].IsOpen.Should().BeTrue();
         }
 
         [TestMethod]
         public void OpenCell_WithMine_Test()
         {
-            var fiel = new PlayField();
+            var fiel = new PlayBoard();
 
             OpenCell openCell = new OpenCell();
 
@@ -42,14 +42,14 @@ namespace BusinessLogic.Tests
         [TestMethod]
         public void OpenCell_WithOutMine_Test()
         {
-            var fiel = new PlayField();
+            var fiel = new PlayBoard();
 
             OpenCell openCell = new OpenCell();
 
             openCell.Open(fieldCells[2, 2]);
 
             GameStatus.GameIsLive.Should().BeTrue();
-        }
+        }*/
 
 
     }

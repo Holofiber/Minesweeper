@@ -8,15 +8,15 @@ namespace BusinessLogic
     {
         public void Mark(Cell cell)
         {
-            if (cell.CellIsOpen == false)
+            if (cell.IsOpen == false)
             {
-                cell.MarkIsSet = true;
+                // cell.Flagged = true;
             }
         }
 
         public void Demark(Cell cell)
         {
-            cell.MarkIsSet = false;
+            // cell.Flagged = false;
         }
     }
 }

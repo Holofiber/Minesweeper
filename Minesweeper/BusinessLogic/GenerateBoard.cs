@@ -4,12 +4,14 @@ using System.Text;
 
 namespace BusinessLogic
 {
-    public class GenerateField
+    public class GenerateBoard
     {
         private int Width;
         private int Height;
         private int X;
         private int Y;
+
+
 
         public Cell[,] Generator(int width, int height, int mine)
         {
@@ -21,7 +23,7 @@ namespace BusinessLogic
             {
                 for (int j = 0; j < height; j++)
                 {
-                    arCells[i, j] = new Cell(CellValue.Null);
+                    arCells[i, j] = new Cell(CellValue.Zero);
                 }
             }
 
@@ -30,7 +32,7 @@ namespace BusinessLogic
                 GetRandomCell();
                 if (arCells[X, Y].Value != CellValue.Mine)
                 {
-                    arCells[X, Y].Value = CellValue.Mine;
+                    arCells[X, Y] = new Cell(CellValue.Mine);
                 }
                 else
                 {

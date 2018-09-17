@@ -4,6 +4,6 @@ namespace BusinessLogic
 {
     public class Root
     {
-        private PlayField field = new PlayField();
+       // private PlayBoard board = new PlayBoard();
     }
 }

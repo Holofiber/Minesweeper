@@ -15,7 +15,7 @@ namespace BusinessLogic
             else
             {
                 GameStatus.GameIsLive = true;
-                cell.CellIsOpen = true;
+                //  cell.IsOpen = true;
                 Console.WriteLine("Luck!");
 
             }

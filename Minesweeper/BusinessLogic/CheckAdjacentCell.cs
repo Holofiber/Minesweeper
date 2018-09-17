@@ -7,38 +7,36 @@ namespace BusinessLogic
 {
     public class CheckAdjacentCell
     {
-        private PlayField Field { get; set; }
+        private PlayBoard Board { get; }
         private Cell[,] arrayCells;
 
-        public CheckAdjacentCell(PlayField field)
+        public CheckAdjacentCell(PlayBoard board)
         {
-            Field = field;
+            Board = board;
         }
 
         public void CheckArray(int x, int y)
         {
-            arrayCells = Field.FieldCells;
+           // arrayCells = Board.FieldCells;
 
             var myCell = arrayCells[x, y];
 
-            if (myCell.Value == CellValue.Null)
+            if (myCell.Value == CellValue.Zero)
             {
-                forCycle(x, y);
+                CheckAdjacentCallCycle(x, y);
+
                 foreach (var arrayCell in arrayCells)
                 {
-                    if (arrayCell.CellIsOpen == true)
+                    if (arrayCell.IsOpen == true)
                     {
                         Debug.WriteLine(arrayCell.Value);
                     }
                 }
             }
-            else
-            {
-                return;
-            }
+
         }
 
-        public void forCycle(int x, int y)
+        public void CheckAdjacentCallCycle(int x, int y)
         {
             for (int i = x - 1; i <= x + 1; i++)
             {
@@ -46,9 +44,9 @@ namespace BusinessLogic
                 {
                     try
                     {
-                        if (arrayCells[i, j].MarkIsSet == false)
+                        if (arrayCells[i, j].Flagged == false)
                         {
-                            arrayCells[i, j].CellIsOpen = true;
+                            //  arrayCells[i, j].IsOpen = true;
                         }
                     }
                     catch (IndexOutOfRangeException e)

@@ -10,28 +10,40 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace BusinessLogic.Tests
 {
     [TestClass]
-    public class CreatePlayFieldTest
+    public class PlayBoardTest
     {
         [TestMethod]
         public void PlayField_IsNotNull_Test()
         {
-            PlayField playField = new PlayField();
-            playField.FieldCells.Should().HaveCount(9);
+            PlayBoard playBoard = new PlayBoard(3, 3, 3);
+
+            playBoard.GetCellValues().Should().HaveCount(9);
         }
+
         [TestMethod]
-        public void Test()
+        public void PlayBoard__Test()
         {
-            GenerateField g = new GenerateField();
+            PlayBoard playBoard = new PlayBoard(3, 3, 3);
 
-            Cell[,] c = g.Generator(10, 10, 10);
+            playBoard.GetCellValues().Should().HaveCount(9);
 
-            for (int i = 0; i < 10; i++)
-            {
-                for (int j = 0; j < 10; j++)
-                {
-                    Debug.WriteLine(c[i, j].Value.ToString());
-                }
-            }
         }
+
+
+        //[TestMethod]
+        //public void Test()
+        //{
+        //    GenerateBoard g = new GenerateBoard();
+
+        //    Cell[,] c = g.Generator(10, 10, 10);
+
+        //    for (int i = 0; i < 10; i++)
+        //    {
+        //        for (int j = 0; j < 10; j++)
+        //        {
+        //            Debug.WriteLine(c[i, j].Value.ToString());
+        //        }
+        //    }
+        //}
     }
 }

@@ -9,18 +9,40 @@ namespace BusinessLogic
         public Cell(CellValue value)
         {
             Value = value;
+
         }
 
-        public bool CellIsOpen { get; set; } = false;
+        public bool IsOpen { get; private set; }
 
-        public bool MarkIsSet { get; set; } = false;
+        public bool Flagged { get; private set; }
 
-        public CellValue Value { get; set; }
+        public CellValue Value { get; }
+
+        public void Open()
+        {
+            if (Flagged)
+            {
+                return;
+            }
+
+            IsOpen = true;
+        }
+
+        public void SetFlag()
+        {
+            if (IsOpen)
+            {
+                return;
+            }
+
+            Flagged = true;
+        }
+
     }
 
     public enum CellValue
     {
-        Null = 0,
+        Zero = 0,
         One = 1,
         Two = 2,
         Three = 3,
