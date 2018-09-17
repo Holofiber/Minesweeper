@@ -8,54 +8,113 @@ namespace MinesweeperConsole
 {
     class Program
     {
+        private static string Command;
+        private static Cell[,] Cells;
+        private static int width = 10;
+        private static int hight = 10;
+
         static void Main(string[] args)
         {
-            
-            int width = 3;
-            int hight = 3;
+
+
             int mineCount = 3;
 
             PlayBoard board = new PlayBoard(width, hight, mineCount);
             //var cellValues = board.GetCellValues();
 
-            var cellValues =new Cell[3, 3]
-                {
-                    {new Cell(CellValue.Two), new Cell(CellValue.Mine), new Cell(CellValue.Two)},
-                    {new Cell(CellValue.Mine), new Cell(CellValue.Three), new Cell(CellValue.Mine)},
-                    {new Cell(CellValue.One), new Cell(CellValue.Two), new Cell(CellValue.One)}
-                };
+            var cellValues = DataLayer.Get10x10Board();
 
+            Cells = cellValues;
+
+
+
+            PrintBoard(Cells);
+            System.Console.WriteLine();
+
+            GameLoop();
+
+            Console.ReadKey();
+        }
+
+        private static void GameLoop()
+        {
+            while (true)
+            {
+                try
+                {
+                    Command = Console.ReadLine();
+                    var commandParameters = Command.Split(' ');
+
+                    if (commandParameters.Length == 3)
+                    {
+                        int x;
+                        Int32.TryParse(commandParameters[1], out x);
+
+                        int y;
+                        Int32.TryParse(commandParameters[2], out y);
+
+                        switch (commandParameters[0])
+                        {
+                            case "Open":
+                                Cells[x, y].Open();
+                                break;
+                            case "SetFlag":
+                                Cells[x, y].SetFlag();
+                                break;
+                            case "RemoveFlag":
+                                Cells[x, y].RemoveFlag();
+                                break;
+                            default:
+                                System.Console.WriteLine($"Unknown command: {commandParameters[0]}");
+                                break;
+                        }
+                    }
+
+
+                }
+                catch (Exception e)
+                {
+                    System.Console.WriteLine(e);
+                    throw;
+                }
+
+                UpdateConsole();
+            }
+        }
+
+        private static void PrintBoard(Cell[,] cellValues)
+        {
             for (int i = 0; i < width; i++)
             {
-
                 Console.WriteLine();
                 for (int j = 0; j < hight; j++)
                 {
-
                     PrintCellValue(cellValues[i, j]);
-                    Console.Write(" ");
+                    Console.Write("|");
                 }
 
-                
-                
-               
-            }
 
-            Console.ReadKey();
+            }
+        }
+
+        private static void UpdateConsole()
+        {
+            Console.Clear();
+            PrintBoard(Cells);
+            System.Console.WriteLine();
         }
 
         static void PrintCellValue(Cell cell)
         {
 
             var value = cell.Value;
-            if (cell.IsOpen == false)
+            if (cell.IsOpen == false && cell.Flagged == false)
             {
-                
+
                 Console.Write("#");
             }
             else if (cell.Flagged)
             {
-               
                 Console.Write("f");
             }
             else
@@ -63,8 +122,10 @@ namespace MinesweeperConsole
                 switch (value)
                 {
                     case CellValue.Zero:
-                        
-                        Console.Write("[ ]");
+                        Console.BackgroundColor = Color.DarkGray;
+                        Console.Write("0");
+                        Console.ResetColor();
+
                         break;
                     case CellValue.One:
                         Console.Write("1", Color.Blue);
@@ -91,7 +152,9 @@ namespace MinesweeperConsole
                         Console.Write("8", Color.Black);
                         break;
                     case CellValue.Mine:
+                        Console.BackgroundColor = Color.Red;
                         Console.Write("*");
+                        Console.ResetColor();
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(value), value, null);

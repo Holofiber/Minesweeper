@@ -38,6 +38,14 @@ namespace BusinessLogic
             Flagged = true;
         }
 
+        public void RemoveFlag()
+        {
+            if (Flagged)
+            {
+                Flagged = false;
+            }
+        }
+
     }
 
     public enum CellValue
