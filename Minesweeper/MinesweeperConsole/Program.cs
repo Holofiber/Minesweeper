@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Text;
 using BusinessLogic;
+using NClap.Repl;
 using Console = Colorful.Console;
 
 namespace MinesweeperConsole
@@ -10,25 +11,16 @@ namespace MinesweeperConsole
     {
         private static string Command;
         private static Cell[,] Cells;
-        private static int width = 100;
-        private static int hight = 100;
+        private static int width = 10;
+        private static int hight = 10;
 
         static void Main(string[] args)
         {
+            GameSingelton singelton = GameSingelton.Instance(width, hight, 10);
 
+            Cells = singelton.Cells;
 
-            int mineCount = 300;
-
-            PlayBoard board = new PlayBoard(width, hight, mineCount);
-            var cellValues = board.GetCellValues();
-
-          //  var cellValues = DataLayer.Get10x10Board();
-
-            Cells = cellValues;
-
-
-
-            PrintBoard(Cells);
+            UpdateConsole();
             System.Console.WriteLine();
 
             GameLoop();
@@ -42,43 +34,9 @@ namespace MinesweeperConsole
             {
                 try
                 {
-                    Command = Console.ReadLine();
-                    var commandParameters = Command.Split(' ');
-                    if (commandParameters[0] == "OpenAll")
-                    {
-                        foreach (var cell in Cells)
-                        {
-                            cell.Open();
-                        }
-                    }
+                    var loop = new Loop(typeof(MyCommand));
 
-
-                    if (commandParameters.Length == 3)
-                    {
-                        int x;
-                        Int32.TryParse(commandParameters[1], out x);
-
-                        int y;
-                        Int32.TryParse(commandParameters[2], out y);
-
-                        switch (commandParameters[0])
-                        {
-                            case "Open":
-                                Cells[x, y].Open();
-                                break;
-                            case "SetFlag":
-                                Cells[x, y].SetFlag();
-                                break;
-                            case "RemoveFlag":
-                                Cells[x, y].RemoveFlag();
-                                break;
-                            default:
-                                System.Console.WriteLine($"Unknown command: {commandParameters[0]}");
-                                break;
-                        }
-                    }
-
-
+                    loop.ExecuteOnce();
                 }
                 catch (Exception e)
                 {
@@ -108,8 +66,10 @@ namespace MinesweeperConsole
         private static void UpdateConsole()
         {
             Console.Clear();
+
             PrintBoard(Cells);
-            System.Console.WriteLine();
+
+            System.Console.WriteLine("\t Valid Command: [Open X Y] [OpenAll] [SetFlag X Y] [RemoveFlag X Y]");
         }
 
         static void PrintCellValue(Cell cell)
