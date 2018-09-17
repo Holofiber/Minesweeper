@@ -10,19 +10,19 @@ namespace MinesweeperConsole
     {
         private static string Command;
         private static Cell[,] Cells;
-        private static int width = 10;
-        private static int hight = 10;
+        private static int width = 100;
+        private static int hight = 100;
 
         static void Main(string[] args)
         {
 
 
-            int mineCount = 3;
+            int mineCount = 300;
 
             PlayBoard board = new PlayBoard(width, hight, mineCount);
-            //var cellValues = board.GetCellValues();
+            var cellValues = board.GetCellValues();
 
-            var cellValues = DataLayer.Get10x10Board();
+          //  var cellValues = DataLayer.Get10x10Board();
 
             Cells = cellValues;
 
@@ -44,6 +44,14 @@ namespace MinesweeperConsole
                 {
                     Command = Console.ReadLine();
                     var commandParameters = Command.Split(' ');
+                    if (commandParameters[0] == "OpenAll")
+                    {
+                        foreach (var cell in Cells)
+                        {
+                            cell.Open();
+                        }
+                    }
+
 
                     if (commandParameters.Length == 3)
                     {
