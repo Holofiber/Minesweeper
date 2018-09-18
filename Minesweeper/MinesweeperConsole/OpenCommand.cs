@@ -11,7 +11,7 @@ namespace MinesweeperConsole
 {
     class OpenCommand : Command
     {
-
+        
         private PlayBoard board;
         ConsoleOutputService service = new ConsoleOutputService();
 
@@ -30,6 +30,11 @@ namespace MinesweeperConsole
         public override Task<CommandResult> ExecuteAsync(CancellationToken cancel)
         {
             board.OpenCell(X, Y);
+
+            var status = board.Status;
+
+            ServiceLocator.ConsoleTitleUpdater.TitleValue = status.ToString();
+
 
             service.UpdateConsole();
 

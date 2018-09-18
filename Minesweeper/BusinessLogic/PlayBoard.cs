@@ -7,14 +7,13 @@ namespace BusinessLogic
 {
     public class PlayBoard
     {
-
-
         private readonly int width;
         private readonly int height;
         private readonly int mineCount;
         private Cell[,] cells;
         private CheckAdjacentCell checkAdjacent;
 
+        public Status Status { get; private set; }
 
         public PlayBoard(int width, int height, int mineCount)
         {
@@ -30,17 +29,44 @@ namespace BusinessLogic
         public void OpenCell(int x, int y)
         {
             cells[x, y].Open();
-            if (cells[x, y].Value == CellValue.Mine)
-            {
-                GameStatus.GameIsLive = false;
-            }
 
-            if (CheckWinCondition())
-            {
-                return;
-            }
+            UpdateGameStatus();
 
             checkAdjacent.CheckArray(x, y);
+        }
+
+        private void UpdateGameStatus()
+        {
+            if (Status == Status.Initila)
+            {
+                Status = Status.Live;
+            }
+
+            //check win
+            if (!CheckWinCondition())
+            {
+                Status = Status.Win;
+            }
+
+            // check loose
+            if (CheckLooseCondition())
+            {
+                Status = Status.Loose;
+            }
+        }
+
+        private bool CheckLooseCondition()
+        {
+            foreach (var cell in cells)
+            {
+                if (cell.IsOpen && cell.Value == CellValue.Mine)
+                {
+                    return true;
+                }
+
+            }
+
+            return false;
         }
 
         private bool CheckWinCondition()
@@ -179,7 +205,7 @@ namespace BusinessLogic
                 }
             }
         }
+
+
     }
-
-
 }

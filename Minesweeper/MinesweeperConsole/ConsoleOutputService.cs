@@ -37,6 +37,8 @@ namespace MinesweeperConsole
         {
             Console.Clear();
 
+
+
             PrintBoard();
             System.Console.WriteLine();
             System.Console.WriteLine("\t Valid Command: [Open X Y] [OpenAll] [SetFlag X Y] [RemoveFlag X Y]");

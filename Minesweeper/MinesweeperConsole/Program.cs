@@ -6,23 +6,16 @@ namespace MinesweeperConsole
 {
     class Program
     {
-        static ConsoleOutputService consoleOutputService = new ConsoleOutputService();
-        static ConsoleTitleUpdater titleUpdater = new ConsoleTitleUpdater();
-
         static void Main(string[] args)
         {
-            Console.Title = DateTime.Now.ToLongTimeString();
-
             GameSingleton singleton = GameSingleton.Instance;
             singleton.RecreateBoard(10, 10, 10);
 
-            consoleOutputService.UpdateConsole();
+            ServiceLocator.ConsoleOutputService.UpdateConsole();
 
-            titleUpdater.Start();
+            ServiceLocator.ConsoleTitleUpdater.Start();
 
             GameLoop();
-
-
 
             Console.ReadKey();
         }

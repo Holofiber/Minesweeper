@@ -78,6 +78,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoveFlagCommand.cs" />
+    <Compile Include="ServiceLocator.cs" />
     <Compile Include="SetFlagCommand.cs" />
   </ItemGroup>
   <ItemGroup>

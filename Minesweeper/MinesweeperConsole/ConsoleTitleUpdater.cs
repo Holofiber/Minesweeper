@@ -11,6 +11,8 @@ namespace MinesweeperConsole
     {
         private Stopwatch stopwatch = new Stopwatch();
 
+        public string TitleValue { get; set; } = "Good Luck";
+
         public void Start()
         {
             stopwatch.Start();
@@ -21,7 +23,8 @@ namespace MinesweeperConsole
                 {
                     await Task.Delay(1000);
 
-                    Console.Title = stopwatch.Elapsed.Seconds.ToString();
+                    string title = stopwatch.Elapsed.Seconds.ToString();
+                    Console.Title = $"[{title}] {TitleValue}";
                 }
             });
         }
