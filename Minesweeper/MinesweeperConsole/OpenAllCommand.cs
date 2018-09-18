@@ -6,15 +6,12 @@ namespace MinesweeperConsole
 {
     class OpenAllCommand : Command
     {
-        private GameSingelton singelton = GameSingelton.Instance;
+        private GameSingleton singleton = GameSingleton.Instance;
         ConsoleOutputService service = new ConsoleOutputService();
 
         public override Task<CommandResult> ExecuteAsync(CancellationToken cancel)
         {
-            foreach (var cell in singelton.Cells)
-            {
-                cell.Open();
-            }
+            singleton.Board.OpenAllCell();
 
             service.UpdateConsole();
 

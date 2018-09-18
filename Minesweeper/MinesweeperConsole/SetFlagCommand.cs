@@ -7,7 +7,7 @@ namespace MinesweeperConsole
     class SetFlagCommand : Command
     {
         ConsoleOutputService service = new ConsoleOutputService();
-        private GameSingelton singelton = GameSingelton.Instance;
+        private GameSingleton singleton = GameSingleton.Instance;
 
         [PositionalArgument(ArgumentFlags.Required, Position = 0, Description = "SetFlag X")]
         public int X { get; set; }
@@ -17,7 +17,7 @@ namespace MinesweeperConsole
 
         public override Task<CommandResult> ExecuteAsync(CancellationToken cancel)
         {
-            singelton.Cells[X, Y].SetFlag();
+            singleton.Board.SetFlag(X, Y);
 
             service.UpdateConsole();
 

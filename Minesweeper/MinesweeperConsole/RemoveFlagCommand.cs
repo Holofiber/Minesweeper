@@ -8,7 +8,7 @@ namespace MinesweeperConsole
     class RemoveFlagCommand : Command
     {
         ConsoleOutputService service = new ConsoleOutputService();
-        private GameSingelton singelton = GameSingelton.Instance;
+        private GameSingleton singleton = GameSingleton.Instance;
 
         [PositionalArgument(ArgumentFlags.Required, Position = 0, Description = "RemoveFlag X")]
         public int X { get; set; }
@@ -18,7 +18,7 @@ namespace MinesweeperConsole
 
         public override Task<CommandResult> ExecuteAsync(CancellationToken cancel)
         {
-            singelton.Cells[X, Y].RemoveFlag();
+            singleton.Board.RemoveFlag(X, Y);
             service.UpdateConsole();
 
             return Task.FromResult(CommandResult.Success);

@@ -2,24 +2,23 @@
 
 namespace MinesweeperConsole
 {
-    public class GameSingelton
+    public class GameSingleton
     {
-        private static GameSingelton instance;
+        private static GameSingleton instance;
         
 
         public PlayBoard Board { get; private set; }
-        public Cell[,] Cells { get; private set; }
+       
 
-        private GameSingelton()
+        private GameSingleton()
         {
         }
 
-        public static GameSingelton Instance => instance ?? (instance = new GameSingelton());
+        public static GameSingleton Instance => instance ?? (instance = new GameSingleton());
 
         public void RecreateBoard(int width, int height, int mineCount)
         {
             Board = new PlayBoard(width, height, mineCount);
-            Cells = Board.GetCellValues();
         }
     }
 }

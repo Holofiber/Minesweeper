@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace BusinessLogic
@@ -10,14 +11,15 @@ namespace BusinessLogic
         private int Height;
         private int X;
         private int Y;
+        private Cell[,] arCells;
 
 
 
-        public Cell[,] Generator(int width, int height, int mine)
+       /* public Cell[,] Generator(int width, int height, int mine)
         {
             Width = width;
             Height = height;
-            Cell[,] arCells = new Cell[width, height];
+            arCells = new Cell[width, height];
 
             for (int i = 0; i < width; i++)
             {
@@ -41,6 +43,8 @@ namespace BusinessLogic
 
             }
 
+            SetMineCount(Width, height);
+
             return arCells;
         }
 
@@ -50,5 +54,33 @@ namespace BusinessLogic
             X = random.Next(0, Height);
             Y = random.Next(0, Width);
         }
+
+        public void SetMineCount(int x, int y)
+        {
+            int mineCount = 0;
+            for (int i = x - 1; i <= x + 1; i++)
+            {
+                for (int j = y - 1; j <= y + 1; j++)
+                {
+                    try
+                    {
+                        if (arCells[i, j].Value == CellValue.Mine)
+                        {
+                            mineCount++;
+                            arCells[i, j] = new Cell((CellValue)mineCount);
+                        }
+                    }
+                    catch (IndexOutOfRangeException e)
+                    {
+                        continue;
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine(e);
+                        throw;
+                    }
+                }
+            }
+        }*/
     }
 }

@@ -46,6 +46,11 @@ namespace BusinessLogic
             }
         }
 
+        public Cell Clone()
+        {
+            return (Cell)MemberwiseClone();
+        }
+        
     }
 
     public enum CellValue

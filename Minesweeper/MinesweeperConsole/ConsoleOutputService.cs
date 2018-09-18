@@ -11,12 +11,12 @@ namespace MinesweeperConsole
 {
     public class ConsoleOutputService
     {
-        GameSingelton singelton = GameSingelton.Instance;
+        GameSingleton singleton = GameSingleton.Instance;
 
 
         private void PrintBoard()
         {
-            Cell[,] cellValues = singelton.Cells;
+            Cell[,] cellValues = singleton.Board.GetCellValues();
 
             int width = cellValues.GetLength(0);
             int hight = cellValues.GetLength(1);
@@ -38,7 +38,7 @@ namespace MinesweeperConsole
             Console.Clear();
 
             PrintBoard();
-
+            System.Console.WriteLine();
             System.Console.WriteLine("\t Valid Command: [Open X Y] [OpenAll] [SetFlag X Y] [RemoveFlag X Y]");
         }
 
@@ -67,27 +67,35 @@ namespace MinesweeperConsole
                         break;
                     case CellValue.One:
                         Console.Write("1", Color.Blue);
+                        Console.ResetColor();
                         break;
                     case CellValue.Two:
                         Console.Write("2", Color.Green);
+                        Console.ResetColor();
                         break;
                     case CellValue.Three:
                         Console.Write("3", Color.Red);
+                        Console.ResetColor();
                         break;
                     case CellValue.For:
                         Console.Write("4", Color.DarkBlue);
+                        Console.ResetColor();
                         break;
                     case CellValue.Five:
                         Console.Write("5", Color.Brown);
+                        Console.ResetColor();
                         break;
                     case CellValue.Sex:
                         Console.Write("6", Color.Aqua);
+                        Console.ResetColor();
                         break;
                     case CellValue.Seven:
                         Console.Write("7", Color.DarkRed);
+                        Console.ResetColor();
                         break;
                     case CellValue.Eight:
                         Console.Write("8", Color.Black);
+                        Console.ResetColor();
                         break;
                     case CellValue.Mine:
                         Console.BackgroundColor = Color.Red;

@@ -4,17 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using BusinessLogic;
 using NClap.Metadata;
 
 namespace MinesweeperConsole
 {
-
-
     class OpenCommand : Command
     {
-        GameSingelton singelton = GameSingelton.Instance;
-        ConsoleOutputService service = new ConsoleOutputService();
 
+        private PlayBoard board;
+        ConsoleOutputService service = new ConsoleOutputService();
 
         [PositionalArgument(ArgumentFlags.Required, Position = 0, Description = "Open X")]
         public int X { get; set; }
@@ -22,9 +21,16 @@ namespace MinesweeperConsole
         [PositionalArgument(ArgumentFlags.Required, Position = 1, Description = "Open Y")]
         public int Y { get; set; }
 
+        public OpenCommand()
+        {
+            GameSingleton singleton = GameSingleton.Instance;
+            board = singleton.Board;
+        }
+
         public override Task<CommandResult> ExecuteAsync(CancellationToken cancel)
         {
-            singelton.Cells[X, Y].Open();
+            board.OpenCell(X, Y);
+
             service.UpdateConsole();
 
             return Task.FromResult(CommandResult.Success);
