@@ -2,7 +2,7 @@
 {
     public enum Status
     {
-        Initila,
+        Initial,
         Live,
         Loose,
         Win

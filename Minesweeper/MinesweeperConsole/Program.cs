@@ -9,7 +9,7 @@ namespace MinesweeperConsole
         static void Main(string[] args)
         {
             GameSingleton singleton = GameSingleton.Instance;
-            singleton.RecreateBoard(10, 10, 10);
+            singleton.RecreateBoard(5, 5, 1);
 
             ServiceLocator.ConsoleOutputService.UpdateConsole();
 

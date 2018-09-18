@@ -37,13 +37,13 @@ namespace BusinessLogic
 
         private void UpdateGameStatus()
         {
-            if (Status == Status.Initila)
+            if (Status == Status.Initial)
             {
                 Status = Status.Live;
             }
 
             //check win
-            if (!CheckWinCondition())
+            if (CheckWinCondition())
             {
                 Status = Status.Win;
             }
@@ -73,13 +73,16 @@ namespace BusinessLogic
         {
             foreach (var cell in cells)
             {
-                if (cell.IsOpen || cell.Value == CellValue.Mine)
+                bool cellIsClosed = !cell.IsOpen;
+                bool notMine = cell.Value != CellValue.Mine;
+
+                if (cellIsClosed && notMine)
                 {
-                    return true;
+                    return false;
                 }
             }
+            return true;
 
-            return false;
         }
 
         public void OpenCellOnce(int x, int y)

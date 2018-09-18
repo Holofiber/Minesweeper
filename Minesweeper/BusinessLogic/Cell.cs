@@ -50,7 +50,11 @@ namespace BusinessLogic
         {
             return (Cell)MemberwiseClone();
         }
-        
+
+        public override string ToString()
+        {
+            return $"O {IsOpen}, {Value}";
+        }
     }
 
     public enum CellValue
