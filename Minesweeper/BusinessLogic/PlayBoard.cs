@@ -27,13 +27,33 @@ namespace BusinessLogic
             checkAdjacent = new CheckAdjacentCell(this);
         }
 
-
-
         public void OpenCell(int x, int y)
         {
             cells[x, y].Open();
+            if (cells[x, y].Value == CellValue.Mine)
+            {
+                GameStatus.GameIsLive = false;
+            }
+
+            if (CheckWinCondition())
+            {
+                return;
+            }
 
             checkAdjacent.CheckArray(x, y);
+        }
+
+        private bool CheckWinCondition()
+        {
+            foreach (var cell in cells)
+            {
+                if (cell.IsOpen || cell.Value == CellValue.Mine)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public void OpenCellOnce(int x, int y)
@@ -66,18 +86,18 @@ namespace BusinessLogic
         {
             var copyCells = new Cell[width, height];
 
-            foreach (var cell in cells)
+
+
+            for (int i = 0; i < width; i++)
             {
-                for (int i = 0; i < width; i++)
+                for (int j = 0; j < height; j++)
                 {
-                    for (int j = 0; j < height; j++)
-                    {
-                        copyCells[i, j] = cell.Clone();
-                    }
+                    copyCells[i, j] = cells[i, j].Clone();
                 }
             }
 
-            return cells;
+
+            return copyCells;
         }
 
 

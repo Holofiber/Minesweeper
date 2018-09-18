@@ -17,7 +17,7 @@ namespace MinesweeperConsole
 
         public override Task<CommandResult> ExecuteAsync(CancellationToken cancel)
         {
-            singleton.Board.SetFlag(X, Y);
+            singleton.Board.SetFlag(Y, X);
 
             service.UpdateConsole();
 
