@@ -28,6 +28,11 @@ namespace BusinessLogic
 
         public void OpenCell(int x, int y)
         {
+            if (x > width || y > height)
+            {
+                return;
+            }
+
             cells[x, y].Open();
 
             UpdateGameStatus();
@@ -87,6 +92,10 @@ namespace BusinessLogic
 
         public void OpenCellOnce(int x, int y)
         {
+            if (x > width || y > height)
+            {
+                return;
+            }
             cells[x, y].Open();
         }
 

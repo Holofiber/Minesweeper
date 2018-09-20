@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
+using System.Drawing;
 
 namespace BusinessLogic
 {
@@ -11,18 +9,24 @@ namespace BusinessLogic
     {
         private PlayBoard Board { get; }
         private Cell[,] arrayCells;
+        private readonly int boardWidth;
+        private readonly int boardHeight;
 
-        private HashSet<(int, int)> OpenCells = new HashSet<(int, int)>();
-        private List<(int, int)> OpenCells2 = new List<(int, int)>();
-        private List<(int, int)> OpenCells3 = new List<(int, int)>();
+        private readonly HashSet<Point> openCells = new HashSet<Point>();
 
         public CheckAdjacentCell(PlayBoard board)
         {
             Board = board;
+
+            boardHeight = board.GetCellValues().GetLength(0);
+            boardWidth = board.GetCellValues().GetLength(1);
         }
 
         public void CheckArray(int x, int y)
         {
+            List<Point> OpenCells2 = new List<Point>();
+
+
             arrayCells = Board.GetCellValues();
 
             var myCell = arrayCells[x, y];
@@ -32,69 +36,110 @@ namespace BusinessLogic
                 CheckAdjacentCallCycle(x, y);
             }
 
-            if (OpenCells != null)
-                OpenCells2.AddRange(OpenCells);
-
-            int beforeCount = OpenCells.Count;
-            int afterCount = 0;
-
-            int zzz = 0;
-
-
-            do
+            if (openCells != null)
             {
-                beforeCount = OpenCells.Count;
+                OpenCells2.AddRange(openCells);
+            }
 
-                foreach (var openCell in OpenCells2)
+            void CheckingEmptyArea()
+            {
+                List<Point> listForCurrenCycle = new List<Point>();
+
+                int afterCount = 0;
+                int beforeCount;
+
+                do
                 {
-                    CheckAdjacentCallCycle(openCell.Item1, openCell.Item2);
-                }
+                    List<Point> listForTempData = new List<Point>();
 
-                OpenCells2.Clear();
-                OpenCells3.Clear();
-                OpenCells3.AddRange(OpenCells);
+                    beforeCount = openCells.Count;
 
-                for (int i = afterCount; i < OpenCells.Count; i++)
-                {
-                    OpenCells2.Add(OpenCells3[i]);
-                }
+                    foreach (var openCell in listForCurrenCycle)
+                    {
+                        CheckAdjacentCallCycle(openCell.X, openCell.Y);
+                    }
 
-                zzz++;
-                Debug.WriteLine(zzz);
+                    listForCurrenCycle.Clear();
+                    listForTempData.Clear();
 
-                afterCount = OpenCells.Count;
+                    listForTempData.AddRange(openCells);
 
-            } while (beforeCount != afterCount);
+                    for (int i = afterCount; i < openCells.Count; i++)
+                    {
+                        listForCurrenCycle.Add(listForTempData[i]);
+                    }
+
+                    afterCount = openCells.Count;
+
+                } while (beforeCount != afterCount);
+            }
+
+            CheckingEmptyArea();
         }
 
         private void CheckAdjacentCallCycle(int x, int y)
         {
-            for (int i = x - 1; i <= x + 1; i++)
-            {
-                for (int j = y - 1; j <= y + 1; j++)
-                {
-                    try
-                    {
-                        if (arrayCells[i, j].Flagged == false)
-                        {
-                            Board.OpenCellOnce(i, j);
+            CheckingAdjacent(x, y);
+        }
 
-                            if (arrayCells[i, j].Value == CellValue.Zero)
-                            {
-                                OpenCells.Add((i, j));
-                            }
-                        }
-                    }
-                    catch (IndexOutOfRangeException e)
-                    {
-                        continue;
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.WriteLine(e);
-                        throw;
-                    }
+        private void CheckingAdjacent(int x, int y)
+        {
+            int minX = x - 1;
+            int maxX = x + 1;
+            int minY = y - 1;
+            int maxY = y + 1;
+
+            if (x == 0)
+            {
+                minX = 1;
+            }
+            if (x == boardHeight)
+            {
+                maxY = boardHeight - 1;
+            }
+            if (y == 0)
+            {
+                minY = 1;
+            }
+            if (y == boardWidth)
+            {
+                maxY = boardWidth - 1;
+            }
+
+
+            for (int i = minX; i < maxX; i++)
+            {
+                for (int j = minY; j < maxY; j++)
+                {
+                    CheckingFlag(i, j);
                 }
+            }
+
+        }
+
+        private void CheckingFlag(int i, int j)
+        {
+            try
+            {
+                if (arrayCells[i, j].Flagged == false)
+                {
+                    Board.OpenCellOnce(i, j);
+
+                    OpenWhenValueZero(i, j);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                throw;
+            }
+        }
+
+        private void OpenWhenValueZero(int i, int j)
+        {
+            if (arrayCells[i, j].Value == CellValue.Zero)
+            {
+                openCells.Add(new Point(i, j));
             }
         }
     }
