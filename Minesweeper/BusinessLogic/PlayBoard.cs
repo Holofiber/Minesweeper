@@ -30,7 +30,7 @@ namespace BusinessLogic
         {
             if (x > width || y > height)
             {
-                return;
+                throw new IndexOutOfRangeException();
             }
 
             cells[x, y].Open();
@@ -94,7 +94,7 @@ namespace BusinessLogic
         {
             if (x > width || y > height)
             {
-                return;
+                throw new IndexOutOfRangeException();
             }
             cells[x, y].Open();
         }
@@ -109,6 +109,10 @@ namespace BusinessLogic
 
         public void SetFlag(int x, int y)
         {
+            if (x > width || y > height)
+            {
+                throw new IndexOutOfRangeException();
+            }
             cells[x, y].SetFlag();
         }
 
@@ -143,9 +147,9 @@ namespace BusinessLogic
         {
             cells = new Cell[width, height];
 
-            for (int i = 0; i < width; i++)
+            for (int i = 0; i < height; i++)
             {
-                for (int j = 0; j < height; j++)
+                for (int j = 0; j < width; j++)
                 {
                     cells[i, j] = new Cell(CellValue.Zero);
                 }
@@ -193,9 +197,32 @@ namespace BusinessLogic
         public void SetMineCount(int x, int y)
         {
             int mineCount = 0;
-            for (int i = x - 1; i <= x + 1; i++)
+
+            int minX = x - 1;
+            int maxX = x + 1;
+            int minY = y - 1;
+            int maxY = y + 1;
+
+            if (x == 0)
             {
-                for (int j = y - 1; j <= y + 1; j++)
+                minX = 0;
+            }
+            if (x == height - 1)
+            {
+                maxX = height - 1;
+            }
+            if (y == 0)
+            {
+                minY = 0;
+            }
+            if (y == width - 1)
+            {
+                maxY = width - 1;
+            }
+
+            for (int i = minX; i <= maxX; i++)
+            {
+                for (int j = minY; j <= maxY; j++)
                 {
                     try
                     {
@@ -204,10 +231,6 @@ namespace BusinessLogic
                             mineCount++;
                             cells[x, y] = new Cell((CellValue)mineCount);
                         }
-                    }
-                    catch (IndexOutOfRangeException e)
-                    {
-                        continue;
                     }
                     catch (Exception e)
                     {
