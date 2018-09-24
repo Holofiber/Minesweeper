@@ -18,13 +18,13 @@ namespace BusinessLogic
         {
             Board = board;
 
-            boardHeight = board.GetCellValues().GetLength(0);
-            boardWidth = board.GetCellValues().GetLength(1);
+            boardHeight = board.GetCellValues().GetLength(0) - 1;
+            boardWidth = board.GetCellValues().GetLength(1) - 1;
         }
 
         public void CheckArray(int x, int y)
         {
-            List<Point> OpenCells2 = new List<Point>();
+            List<Point> listForTempData = new List<Point>();
 
 
             arrayCells = Board.GetCellValues();
@@ -38,20 +38,19 @@ namespace BusinessLogic
 
             if (openCells != null)
             {
-                OpenCells2.AddRange(openCells);
+                listForTempData.AddRange(openCells);
             }
 
             void CheckingEmptyArea()
             {
                 List<Point> listForCurrenCycle = new List<Point>();
+                listForCurrenCycle.AddRange(openCells);
 
                 int afterCount = 0;
                 int beforeCount;
 
                 do
                 {
-                    List<Point> listForTempData = new List<Point>();
-
                     beforeCount = openCells.Count;
 
                     foreach (var openCell in listForCurrenCycle)
@@ -64,7 +63,7 @@ namespace BusinessLogic
 
                     listForTempData.AddRange(openCells);
 
-                    for (int i = afterCount; i < openCells.Count; i++)
+                    for (int i = beforeCount; i < openCells.Count; i++)
                     {
                         listForCurrenCycle.Add(listForTempData[i]);
                     }
@@ -95,7 +94,7 @@ namespace BusinessLogic
             }
             if (x == boardHeight)
             {
-                maxY = boardHeight - 1;
+                maxX = boardHeight;
             }
             if (y == 0)
             {
@@ -103,13 +102,13 @@ namespace BusinessLogic
             }
             if (y == boardWidth)
             {
-                maxY = boardWidth - 1;
+                maxY = boardWidth;
             }
 
 
-            for (int i = minX; i < maxX; i++)
+            for (int i = minX; i <= maxX; i++)
             {
-                for (int j = minY; j < maxY; j++)
+                for (int j = minY; j <= maxY; j++)
                 {
                     CheckingFlag(i, j);
                 }
